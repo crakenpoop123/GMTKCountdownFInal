@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://m6qyihm5te6r"]
+
+[ext_resource type="PackedScene" uid="uid://cxyjhliuu3400" path="res://scenes/player.tscn" id="1_v3uhd"]
+[ext_resource type="Script" uid="uid://bug88d5p0chwa" path="res://scenes/enemy_spawner.gd" id="2_6we3w"]
+
+[node name="MainLevel" type="Node2D" unique_id=1243796044]
+
+[node name="Player" parent="." unique_id=1274931470 instance=ExtResource("1_v3uhd")]
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1078224843]
+script = ExtResource("2_6we3w")
+
+[node name="EnemySpawnTimer" type="Timer" parent="Enemies" unique_id=587736685]
+one_shot = true
+
+[node name="Bullets" type="Node2D" parent="." unique_id=149187424]
