@@ -8,6 +8,13 @@ var rewind_countdown = 0
 func _ready() -> void:
 	pass
 
+func _process(delta: float) -> void:
+	# Get rid of enemies if there are too many
+	if globals.total_enemies > globals.max_enemies:
+		for Enemy in get_node("./Enemies").get_children():
+			if Enemy.has_method("shot") and globals.total_enemies > globals.max_enemies:
+				Enemy.queue_free()
+				globals.total_enemies -= 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:

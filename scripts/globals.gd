@@ -5,6 +5,9 @@ var movement_smoothing = 4
 var shoot_speed = 0.7
 
 var enemy_spawn_rate = 1 # Enemies per second
+var total_enemies = 0
+var max_enemies = 50
+var enemies_killed = 0
 
 var rewind = false
 var is_currently_rewinding = false

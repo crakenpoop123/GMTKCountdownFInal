@@ -21,8 +21,10 @@ func _process(delta: float) -> void:
 		
 		curr_enemy.position = get_node("../Player").global_position + Vector2(cos(spawn_angle), sin(spawn_angle)) * spawn_dist
 		
-		print("Spawned enemy at " + str(curr_enemy.position))
+		#print("Spawned enemy at " + str(curr_enemy.position))
 		
 		get_node("./").add_child(curr_enemy)
+		
+		globals.total_enemies += 1
 		
 		$EnemySpawnTimer.start(1 / globals.enemy_spawn_rate)

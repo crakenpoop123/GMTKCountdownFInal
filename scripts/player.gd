@@ -23,6 +23,7 @@ func _physics_process(delta: float) -> void:
 	
 	# update the survival time
 	$SurvivalTime.text = "Time survived: %.1f s" % globals.survival_time
+	$KillTracker.text = "Enemies killed: " + str(globals.enemies_killed)
 	
 	if globals.is_currently_rewinding:
 		return

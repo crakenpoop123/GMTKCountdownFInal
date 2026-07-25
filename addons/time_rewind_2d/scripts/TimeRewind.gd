@@ -96,8 +96,12 @@ func _rewind_process(delta: float) -> void:
 	for i in range(RewindManager.rewind_speed):
 		# Stop rewind if there are no values left
 		if rewind_values[rewindable_properties[0]].is_empty():
-			if body.name != "Player":
-				get_parent().queue_free()
+			#if body.name != "Player":
+				#if body.has_method("shot"):
+					#globals.total_enemies -= 1
+				#get_parent().queue_free()
+			#if i == RewindManager.rewind_speed - 1:
+				#print("Rewinding:", body.name)
 			return
 
 		# Set the property to a previous value

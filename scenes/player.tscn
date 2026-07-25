@@ -11,12 +11,6 @@ size = Vector2(128, 128)
 collision_mask = 2
 script = ExtResource("1_g2els")
 
-[node name="SurvivalTime" type="RichTextLabel" parent="." unique_id=1205351752]
-offset_left = -576.0
-offset_top = -324.0
-offset_right = -321.0
-offset_bottom = -244.0
-
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=2047404439]
 texture = ExtResource("2_qhqgy")
 
@@ -35,3 +29,16 @@ collision_shape = NodePath("../PlayerCollision")
 rewind_time = 5.0
 rewindable_properties = Array[String](["collision_layer", "collision_mask", "collision_priority", "disable_mode", "floor_block_on_wall", "floor_constant_speed", "floor_max_angle", "floor_snap_length", "floor_stop_on_slope", "global_position", "global_rotation", "global_scale", "input_pickable", "max_slides", "modulate", "motion_mode", "platform_floor_layers", "platform_on_leave", "platform_wall_layers", "position", "rotation", "safe_margin", "scale", "slide_on_ceiling", "up_direction", "velocity", "visible", "wall_min_slide_angle"])
 metadata/_custom_type_script = "uid://dk5gtqgoei7f3"
+
+[node name="SurvivalTime" type="RichTextLabel" parent="." unique_id=1205351752]
+offset_left = -576.0
+offset_top = -324.0
+offset_bottom = -244.0
+theme_override_font_sizes/normal_font_size = 32
+
+[node name="KillTracker" type="RichTextLabel" parent="." unique_id=1719456549]
+offset_left = 256.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = -244.0
+theme_override_font_sizes/normal_font_size = 32

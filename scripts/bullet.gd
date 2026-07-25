@@ -23,5 +23,6 @@ func _physics_process(delta: float) -> void:
 		if collider.get_collider().has_method("shot"):
 			collider.get_collider().shot()
 			queue_free()
+			break
 	
 	move_and_slide()
