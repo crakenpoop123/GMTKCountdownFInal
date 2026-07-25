@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://m6qyihm5te6r"]
 
+[ext_resource type="Script" uid="uid://bjggkbnxyihyc" path="res://scripts/main_level.gd" id="1_qmak7"]
 [ext_resource type="PackedScene" uid="uid://cxyjhliuu3400" path="res://scenes/player.tscn" id="1_v3uhd"]
-[ext_resource type="Script" uid="uid://bug88d5p0chwa" path="res://scenes/enemy_spawner.gd" id="2_6we3w"]
+[ext_resource type="Script" uid="uid://bug88d5p0chwa" path="res://scripts/enemy_spawner.gd" id="2_6we3w"]
 
 [node name="MainLevel" type="Node2D" unique_id=1243796044]
+script = ExtResource("1_qmak7")
 
 [node name="Player" parent="." unique_id=1274931470 instance=ExtResource("1_v3uhd")]
 
@@ -14,3 +16,7 @@ script = ExtResource("2_6we3w")
 one_shot = true
 
 [node name="Bullets" type="Node2D" parent="." unique_id=149187424]
+
+[node name="RewindTimer" type="Timer" parent="." unique_id=1804371600]
+wait_time = 5.0
+one_shot = true

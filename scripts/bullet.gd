@@ -6,6 +6,9 @@ const BULLETSPEED = 1000.0
 var angle = 0
 
 func _physics_process(delta: float) -> void:
+	if globals.is_currently_rewinding:
+		return
+	
 	
 	velocity = BULLETSPEED * Vector2(cos(angle), sin(angle))
 	

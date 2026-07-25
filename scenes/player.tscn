@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://q56ko07st2hf" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://bn1525ulmm017" path="res://icon.svg" id="2_qhqgy"]
+[ext_resource type="Script" uid="uid://dk5gtqgoei7f3" path="res://addons/time_rewind_2d/scripts/TimeRewind.gd" id="3_qhqgy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
 size = Vector2(128, 128)
@@ -19,3 +20,11 @@ shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="BulletTimer" type="Timer" parent="." unique_id=2036385003]
 one_shot = true
+
+[node name="PlayerRewind" type="Node2D" parent="." unique_id=1573568419 node_paths=PackedStringArray("body", "collision_shape")]
+script = ExtResource("3_qhqgy")
+body = NodePath("..")
+collision_shape = NodePath("../PlayerCollision")
+rewind_time = 5.0
+rewindable_properties = Array[String](["collision_layer", "collision_mask", "collision_priority", "disable_mode", "floor_block_on_wall", "floor_constant_speed", "floor_max_angle", "floor_snap_length", "floor_stop_on_slope", "global_position", "global_rotation", "global_scale", "input_pickable", "max_slides", "modulate", "motion_mode", "platform_floor_layers", "platform_on_leave", "platform_wall_layers", "position", "rotation", "safe_margin", "scale", "slide_on_ceiling", "up_direction", "velocity", "visible", "wall_min_slide_angle"])
+metadata/_custom_type_script = "uid://dk5gtqgoei7f3"

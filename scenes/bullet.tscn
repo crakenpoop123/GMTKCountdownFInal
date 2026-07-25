@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://r1o5uphklgsu"]
 
 [ext_resource type="Texture2D" uid="uid://8vwwoyftljpk" path="res://resources/bullet.png" id="1_mkf8s"]
-[ext_resource type="Script" uid="uid://b1eqdabms10gn" path="res://scenes/bullet.gd" id="1_y25gk"]
+[ext_resource type="Script" uid="uid://b1eqdabms10gn" path="res://scripts/bullet.gd" id="1_y25gk"]
+[ext_resource type="Script" uid="uid://dk5gtqgoei7f3" path="res://addons/time_rewind_2d/scripts/TimeRewind.gd" id="3_l5glv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y25gk"]
 size = Vector2(21, 18)
@@ -17,3 +18,11 @@ texture = ExtResource("1_mkf8s")
 [node name="BulletCollision" type="CollisionShape2D" parent="." unique_id=636539839]
 position = Vector2(-1.5, 0)
 shape = SubResource("RectangleShape2D_y25gk")
+
+[node name="TimeRewind2D" type="Node2D" parent="." unique_id=255190660 node_paths=PackedStringArray("body", "collision_shape")]
+script = ExtResource("3_l5glv")
+body = NodePath("..")
+collision_shape = NodePath("../BulletCollision")
+rewind_time = 5.0
+rewindable_properties = Array[String](["collision_layer", "collision_mask", "collision_priority", "disable_mode", "floor_block_on_wall", "floor_constant_speed", "floor_max_angle", "floor_snap_length", "floor_stop_on_slope", "global_position", "global_rotation", "global_scale", "input_pickable", "max_slides", "modulate", "motion_mode", "platform_floor_layers", "platform_on_leave", "platform_wall_layers", "position", "rotation", "safe_margin", "scale", "slide_on_ceiling", "up_direction", "velocity", "visible", "wall_min_slide_angle"])
+metadata/_custom_type_script = "uid://dk5gtqgoei7f3"

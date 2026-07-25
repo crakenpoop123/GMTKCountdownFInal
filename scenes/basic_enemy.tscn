@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cs1mfeb8v5hhq" path="res://scripts/basic_enemy.gd" id="1_md22f"]
 [ext_resource type="Texture2D" uid="uid://dvxmsyabp4qh" path="res://resources/enemy.png" id="2_fn5nn"]
+[ext_resource type="Script" uid="uid://dk5gtqgoei7f3" path="res://addons/time_rewind_2d/scripts/TimeRewind.gd" id="3_fn5nn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cuegt"]
 radius = 31.016125
@@ -16,3 +17,11 @@ texture = ExtResource("2_fn5nn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1544714725]
 shape = SubResource("CircleShape2D_cuegt")
+
+[node name="TimeRewind2D" type="Node2D" parent="." unique_id=1664518103 node_paths=PackedStringArray("body", "collision_shape")]
+script = ExtResource("3_fn5nn")
+body = NodePath("..")
+collision_shape = NodePath("../CollisionShape2D")
+rewind_time = 5.0
+rewindable_properties = Array[String](["collision_layer", "collision_mask", "collision_priority", "disable_mode", "floor_block_on_wall", "floor_constant_speed", "floor_max_angle", "floor_snap_length", "floor_stop_on_slope", "global_position", "global_rotation", "global_scale", "input_pickable", "max_slides", "modulate", "motion_mode", "platform_floor_layers", "platform_on_leave", "platform_wall_layers", "position", "rotation", "safe_margin", "scale", "slide_on_ceiling", "up_direction", "velocity", "visible", "wall_min_slide_angle"])
+metadata/_custom_type_script = "uid://dk5gtqgoei7f3"

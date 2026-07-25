@@ -6,6 +6,9 @@ const SPEED = 50.0
 
 func _physics_process(delta: float) -> void:
 	
+	if globals.is_currently_rewinding:
+		return
+	
 	var player_angle = self.get_angle_to(get_node("/root/MainLevel/Player").global_position)
 	#print(player_angle)
 	velocity = SPEED * Vector2(cos(player_angle), sin(player_angle))

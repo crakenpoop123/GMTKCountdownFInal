@@ -7,9 +7,23 @@ var target_speed: Vector2 = Vector2(0, 0)
 
 var bullet = preload("res://scenes/bullet.tscn")
 
+@onready var rewinder = $PlayerRewind
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("rewind"):
+		print("Player Rewind History", str(rewinder.rewind_values.size()))
+		globals.rewind = true
 	
+	#if Engine.get_physics_frames() % 60 == 0:
+		#print("Curr Player Rewind History", str(rewinder.rewind_values.size()))
+	
+	if globals.is_currently_rewinding:
+		return
+	
+	if RewindManager.is_rewinding:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 	
 	# Vertical movement
 	if Input.is_action_pressed("up") && Input.is_action_pressed("down"):
@@ -41,8 +55,14 @@ func _physics_process(delta: float) -> void:
 	velocity.x += (target_speed[0] - velocity.x)/globals.movement_smoothing
 	velocity.y += (target_speed[1] - velocity.y)/globals.movement_smoothing
 	
+	if abs(velocity.x) < 0.1:
+		velocity.x = 0
+	if abs(velocity.y) < 0.1:
+		velocity.y = 0
+	
 	if Input.is_action_pressed("attack"):
 		shoot()
+	
 	
 	move_and_slide()
 

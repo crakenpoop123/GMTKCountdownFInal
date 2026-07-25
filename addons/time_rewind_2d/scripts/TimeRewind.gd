@@ -18,7 +18,7 @@ class_name TimeRewind2D
 @export var rewindable_properties: Array[String] ## Properties that will be rewound
 
 # On ready variables initialized when the script is ready
-@onready var max_values_stored = rewind_time * Engine.physics_ticks_per_second ## Maximum number of values to store for rewind
+@onready var max_values_stored
 @onready var rewind_manager: RewindManager = RewindManager ## Reference to the rewind manager
 
 # Internal variables for managing the rewind process
@@ -26,6 +26,8 @@ var rewind_values: Dictionary = {} ## Dictionary to store rewind values for prop
 
 # Initialization function
 func _ready() -> void:
+	max_values_stored = rewind_time * Engine.physics_ticks_per_second ## Maximum number of values to store for rewind
+	print("Max Values Stored: ", max_values_stored)
 	if not body:
 		push_error("TimeRewind2D: 'body' is not assigned.")
 		return
@@ -61,18 +63,23 @@ func _physics_process(delta: float) -> void:
 
 # Stores the current values of the rewindable properties
 func _store_current_values() -> void:
+	print(body.name, " max limit: ", max_values_stored, " | current count: ", rewind_values[rewindable_properties[0]].size())
+	
 	if rewindable_properties.is_empty():
 		return
 
 	# Remove the oldest values if the max limit is reached	
 	if rewind_values[rewindable_properties[0]].size() >= max_values_stored:
+		#print("Popped front of rewind_values")
 		for key in rewind_values.keys():
 			rewind_values[key].pop_front()
+		print("frames in RewindManager.gd", str(rewind_values[rewindable_properties[0]].size()))
 
 	# Store the current value of the property
 	for property in rewindable_properties:
 		var value = get_nested_property(body, property)
 		if value == null:
+			print("Rewindable Property Value == null")
 			return
 		rewind_values[property].append(value)
 
