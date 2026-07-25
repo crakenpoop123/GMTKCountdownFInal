@@ -10,21 +10,65 @@ var bullet = preload("res://scenes/bullet.tscn")
 @onready var rewinder = $PlayerRewind
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("rewind"):
-		print("Player Rewind History", str(rewinder.rewind_values.size()))
-		globals.rewind = true
+	#if Input.is_action_just_pressed("rewind"):
+		#print("Player Rewind History: ", str(rewinder.rewind_values.size()))
+		#globals.rewind = true
 	
 	#if Engine.get_physics_frames() % 60 == 0:
 		#print("Curr Player Rewind History", str(rewinder.rewind_values.size()))
 	
+	
+	# Reverse time when hit by an enemy
+	#print("num of collisions: ", get_slide_collision_count())
+	
+	# update the survival time
+	$SurvivalTime.text = "Time survived: %.1f s" % globals.survival_time
+	
 	if globals.is_currently_rewinding:
 		return
+	
+	check_if_hit()
+	
 	
 	if RewindManager.is_rewinding:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
 	
+	handle_movement()
+	
+	if Input.is_action_pressed("attack"):
+		shoot()
+	
+	
+	move_and_slide()
+
+
+func shoot():
+	if $BulletTimer.time_left == 0:
+		var shoot_angle = self.get_angle_to(get_global_mouse_position())
+		
+		var shot_bullet = bullet.instantiate()
+		
+		shot_bullet.angle = shoot_angle
+		shot_bullet.global_position = self.global_position
+		
+		get_node("/root/MainLevel/Bullets").add_child(shot_bullet)
+		$BulletTimer.start(globals.shoot_speed)
+	
+
+func check_if_hit():
+	for collision in get_slide_collision_count():
+		var collider = get_slide_collision(collision)
+		#print(collider.get_collider().name)
+		if collider != null:
+			if collider.get_collider() != null:
+				if collider.get_collider().has_method("shot"):
+					#print("Hit by enemy")
+					globals.rewind = true
+					return
+
+func handle_movement():
 	# Vertical movement
 	if Input.is_action_pressed("up") && Input.is_action_pressed("down"):
 		target_speed[1] = 0
@@ -59,23 +103,3 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0
 	if abs(velocity.y) < 0.1:
 		velocity.y = 0
-	
-	if Input.is_action_pressed("attack"):
-		shoot()
-	
-	
-	move_and_slide()
-
-
-func shoot():
-	if $BulletTimer.time_left == 0:
-		var shoot_angle = self.get_angle_to(get_global_mouse_position())
-		
-		var shot_bullet = bullet.instantiate()
-		
-		shot_bullet.angle = shoot_angle
-		shot_bullet.global_position = self.global_position
-		
-		get_node("/root/MainLevel/Bullets").add_child(shot_bullet)
-		$BulletTimer.start(globals.shoot_speed)
-	

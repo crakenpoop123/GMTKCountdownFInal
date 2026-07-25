@@ -6,6 +6,8 @@ signal rewind_stopped
 var is_rewinding: bool = false
 var non_rewindables: Array[Node] = []
 
+var rewind_speed = 5
+
 func start_rewind() -> void:
 	is_rewinding = true
 	_pause_non_rewindables(true)

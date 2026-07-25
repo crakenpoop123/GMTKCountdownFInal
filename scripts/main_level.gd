@@ -11,16 +11,22 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	if not is_auto_rewinding:
+		globals.survival_time += delta
+	
 	if globals.rewind == true:
 		globals.rewind = false
 		if not is_auto_rewinding:
 			rewind_countdown = rewind_time
 			is_auto_rewinding = true
 			globals.is_currently_rewinding = true
+			
 			RewindManager.start_rewind()
 	
 	if is_auto_rewinding:
-		rewind_countdown -= delta
+		rewind_countdown -= delta * RewindManager.rewind_speed
+		globals.survival_time -= delta * RewindManager.rewind_speed
+		globals.survival_time = max(0.0, globals.survival_time)
 		if rewind_countdown <= 0:
 			is_auto_rewinding = false
 			globals.is_currently_rewinding = false

@@ -8,6 +8,9 @@ var enemy_spawn_rate = 1 # Enemies per second
 
 var rewind = false
 var is_currently_rewinding = false
+var rewind_time = 5
+
+var survival_time = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

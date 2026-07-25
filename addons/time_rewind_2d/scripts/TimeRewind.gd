@@ -27,7 +27,7 @@ var rewind_values: Dictionary = {} ## Dictionary to store rewind values for prop
 # Initialization function
 func _ready() -> void:
 	max_values_stored = rewind_time * Engine.physics_ticks_per_second ## Maximum number of values to store for rewind
-	print("Max Values Stored: ", max_values_stored)
+	#print("Max Values Stored: ", max_values_stored)
 	if not body:
 		push_error("TimeRewind2D: 'body' is not assigned.")
 		return
@@ -63,7 +63,7 @@ func _physics_process(delta: float) -> void:
 
 # Stores the current values of the rewindable properties
 func _store_current_values() -> void:
-	print(body.name, " max limit: ", max_values_stored, " | current count: ", rewind_values[rewindable_properties[0]].size())
+	#print(body.name, " max limit: ", max_values_stored, " | current count: ", rewind_values[rewindable_properties[0]].size())
 	
 	if rewindable_properties.is_empty():
 		return
@@ -73,7 +73,7 @@ func _store_current_values() -> void:
 		#print("Popped front of rewind_values")
 		for key in rewind_values.keys():
 			rewind_values[key].pop_front()
-		print("frames in RewindManager.gd", str(rewind_values[rewindable_properties[0]].size()))
+		#print("frames in RewindManager.gd", str(rewind_values[rewindable_properties[0]].size()))
 
 	# Store the current value of the property
 	for property in rewindable_properties:
@@ -82,24 +82,31 @@ func _store_current_values() -> void:
 			print("Rewindable Property Value == null")
 			return
 		rewind_values[property].append(value)
+		#if Engine.get_physics_frames() % 60 == 0:
+			#print("appending frame at size: ", rewind_values[rewindable_properties[0]].size())
 
 # Rewinds the properties to previous values
 func _rewind_process(delta: float) -> void:
+	#print(body.name, "'s frames remaining in _rewind_process: ", rewind_values[rewindable_properties[0]].size())
+	
 	if rewindable_properties.is_empty():
 		return
-		
-	# Stop rewind if there are no values left
-	if rewind_values[rewindable_properties[0]].is_empty():
-		rewind_manager.stop_rewind() 
-		return
+	
+	# Speed it up to rewind_speed
+	for i in range(RewindManager.rewind_speed):
+		# Stop rewind if there are no values left
+		if rewind_values[rewindable_properties[0]].is_empty():
+			if body.name != "Player":
+				get_parent().queue_free()
+			return
 
-	# Set the property to a previous value
-	for property in rewindable_properties:
-		if rewind_values[property].is_empty():
-			push_warning("TimeRewind2D: No more values to rewind for property '" + property + "'.")
-			continue
-		var value = rewind_values[property].pop_back()
-		set_nested_property(body, property, value)
+		# Set the property to a previous value
+		for property in rewindable_properties:
+			if rewind_values[property].is_empty():
+				push_warning("TimeRewind2D: No more values to rewind for property '" + property + "'.")
+				continue
+			var value = rewind_values[property].pop_back()
+			set_nested_property(body, property, value)
 
 # Called when rewind starts
 func _on_rewind_started():

@@ -8,7 +8,14 @@
 size = Vector2(128, 128)
 
 [node name="Player" type="CharacterBody2D" unique_id=1274931470]
+collision_mask = 2
 script = ExtResource("1_g2els")
+
+[node name="SurvivalTime" type="RichTextLabel" parent="." unique_id=1205351752]
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -321.0
+offset_bottom = -244.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=2047404439]
 texture = ExtResource("2_qhqgy")
