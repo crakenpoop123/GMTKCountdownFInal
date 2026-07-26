@@ -23,6 +23,10 @@ class_name TimeRewind2D
 
 # Internal variables for managing the rewind process
 var rewind_values: Dictionary = {} ## Dictionary to store rewind values for properties
+var rewind_variables: Dictionary = {
+	"survival_time": globals.survival_time,
+	"enemies_killed": globals.enemies_killed
+}
 
 # Initialization function
 func _ready() -> void:
@@ -47,6 +51,13 @@ func _ready() -> void:
 			push_error("TimeRewind2D: Property '" + property + "' does not exist on the body.")
 		# Initialize lists for each rewindable property
 		rewind_values[property] = []
+		
+	for property in rewind_variables:
+		#print(property)
+		#if get_nested_property(body, property) == null:
+			#push_error("TimeRewind2D: Property '" + property + "' does not exist on the body.")
+		# Initialize lists for each rewindable variable
+		rewind_values[property] = []
 
 	# Connect rewind start signal
 	rewind_manager.connect("rewind_stopped", _on_rewind_stopped)
@@ -70,13 +81,13 @@ func _store_current_values() -> void:
 
 	# Remove the oldest values if the max limit is reached	
 	if rewind_values[rewindable_properties[0]].size() >= max_values_stored:
-		#print("Popped front of rewind_values")
 		for key in rewind_values.keys():
 			rewind_values[key].pop_front()
 		#print("frames in RewindManager.gd", str(rewind_values[rewindable_properties[0]].size()))
 
 	# Store the current value of the property
 	for property in rewindable_properties:
+		#print(property)
 		var value = get_nested_property(body, property)
 		if value == null:
 			print("Rewindable Property Value == null")
@@ -84,6 +95,19 @@ func _store_current_values() -> void:
 		rewind_values[property].append(value)
 		#if Engine.get_physics_frames() % 60 == 0:
 			#print("appending frame at size: ", rewind_values[rewindable_properties[0]].size())
+	
+	rewind_variables = {
+		"survival_time": globals.survival_time,
+		"enemies_killed": globals.enemies_killed
+	}
+	
+	for key in rewind_variables:
+		var value = rewind_variables[key]
+		if value == null:
+			print("Rewindable Property Value == null")
+			return
+		rewind_values[key].append(value)
+	
 
 # Rewinds the properties to previous values
 func _rewind_process(delta: float) -> void:
@@ -92,16 +116,12 @@ func _rewind_process(delta: float) -> void:
 	if rewindable_properties.is_empty():
 		return
 	
+	#print("survival time array: ", (rewind_values["globals.survival_time"]))
+	
 	# Speed it up to rewind_speed
 	for i in range(RewindManager.rewind_speed):
 		# Stop rewind if there are no values left
 		if rewind_values[rewindable_properties[0]].is_empty():
-			#if body.name != "Player":
-				#if body.has_method("shot"):
-					#globals.total_enemies -= 1
-				#get_parent().queue_free()
-			#if i == RewindManager.rewind_speed - 1:
-				#print("Rewinding:", body.name)
 			return
 
 		# Set the property to a previous value
@@ -111,6 +131,15 @@ func _rewind_process(delta: float) -> void:
 				continue
 			var value = rewind_values[property].pop_back()
 			set_nested_property(body, property, value)
+		
+		# Set the variables to a previous value
+		for property in rewind_variables:
+			if rewind_values[property].is_empty():
+				push_warning("TimeRewind2D: No more values to rewind for property '" + property + "'.")
+				continue
+			var value = rewind_values[property].pop_back()
+			#print("Setting ", property, " to ", value)
+			globals.set(property, value)
 
 # Called when rewind starts
 func _on_rewind_started():

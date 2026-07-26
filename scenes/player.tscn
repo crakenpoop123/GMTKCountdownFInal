@@ -1,18 +1,23 @@
 [gd_scene format=3 uid="uid://cxyjhliuu3400"]
 
 [ext_resource type="Script" uid="uid://q56ko07st2hf" path="res://scripts/player.gd" id="1_g2els"]
-[ext_resource type="Texture2D" uid="uid://bn1525ulmm017" path="res://icon.svg" id="2_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://b6hjun7d1vk1f" path="res://resources/player.png" id="2_qlg0r"]
 [ext_resource type="Script" uid="uid://dk5gtqgoei7f3" path="res://addons/time_rewind_2d/scripts/TimeRewind.gd" id="3_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://yj0d8mmgq8f8" path="res://resources/time_rewind_background.png" id="4_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://clt7by10jl1hr" path="res://resources/time_rewind_arrow.png" id="5_fjrip"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
 size = Vector2(128, 128)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_smehm"]
 
 [node name="Player" type="CharacterBody2D" unique_id=1274931470]
 collision_mask = 2
 script = ExtResource("1_g2els")
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=2047404439]
-texture = ExtResource("2_qhqgy")
+scale = Vector2(4.25, 4.2500005)
+texture = ExtResource("2_qlg0r")
 
 [node name="PlayerCollision" type="CollisionShape2D" parent="." unique_id=210439112]
 shape = SubResource("RectangleShape2D_dqkch")
@@ -42,3 +47,18 @@ offset_top = -324.0
 offset_right = 576.0
 offset_bottom = -244.0
 theme_override_font_sizes/normal_font_size = 32
+
+[node name="TimeRewind" type="Node2D" parent="." unique_id=547379167]
+visible = false
+
+[node name="TimeRewindBackground" type="Sprite2D" parent="TimeRewind" unique_id=532656254]
+modulate = Color(1, 1, 1, 0.26666668)
+material = SubResource("CanvasItemMaterial_smehm")
+position = Vector2(2.2888184e-05, 2.0980835e-05)
+scale = Vector2(40.5, 22.437502)
+texture = ExtResource("4_tuyoq")
+
+[node name="TimeRewindArrow" type="Sprite2D" parent="TimeRewind" unique_id=1076694374]
+position = Vector2(7.9999995, 9)
+scale = Vector2(17.5625, 17.5625)
+texture = ExtResource("5_fjrip")

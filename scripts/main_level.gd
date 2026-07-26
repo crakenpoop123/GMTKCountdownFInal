@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 	
 	if is_auto_rewinding:
 		rewind_countdown -= delta * RewindManager.rewind_speed
-		globals.survival_time -= delta * RewindManager.rewind_speed
+		#globals.survival_time -= delta * RewindManager.rewind_speed * 0.6 # Ion even know where the 0.6 comes from but it fixes smty
 		globals.survival_time = max(0.0, globals.survival_time)
 		if rewind_countdown <= 0:
 			is_auto_rewinding = false
